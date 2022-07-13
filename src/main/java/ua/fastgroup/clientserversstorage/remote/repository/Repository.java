@@ -1,6 +1,7 @@
 package ua.fastgroup.clientserversstorage.remote.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ua.fastgroup.clientserversstorage.models.Group;
 import ua.fastgroup.clientserversstorage.models.Product;
@@ -49,7 +50,7 @@ public class Repository {
         return dataSource.getAllProducts().thenApply(response -> {
             try {
                 if (response.statusCode() == 200)
-                    return new Success(mapper.readValue(response.body(), List.class));
+                    return new Success(mapper.readValue(response.body(), new TypeReference<List<Product>>(){}));
                 else
                     return new Error(response.body());
             } catch (JsonProcessingException e) {

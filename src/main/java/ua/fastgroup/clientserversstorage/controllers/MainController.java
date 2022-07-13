@@ -1,6 +1,9 @@
 package ua.fastgroup.clientserversstorage.controllers;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -21,6 +24,20 @@ public class MainController {
     private final Alert alert = new Alert(Alert.AlertType.ERROR);
     private Repository repository;
 
+
+    @FXML
+    private Label labelName;
+    @FXML
+    private Label labelPrice;
+    @FXML
+    private Label labelAmount;
+    @FXML
+    private Label labelGroup;
+    @FXML
+    private Label labelManufacturer;
+    @FXML
+    private Label labelDescription;
+
     public void init(Repository repository){
         this.repository = repository;
         columns.add(new TableColumn<Product, String>("Name"));
@@ -39,15 +56,36 @@ public class MainController {
 
         productTable.getColumns().addAll(columns);
 
+        reload();
+
+        productTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        productTable.getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, productTableViewSelectionModel, newValue) ->
+                        selectProduct(newValue)
+        );
+    }
+
+    private void reload(){
         repository.getAllProducts().thenAccept(result->Platform.runLater(()->{
             if (result.isError()) {
                 alert.setContentText(result.getError().getMessage());
                 alert.show();
                 System.out.println(result.getError().getMessage());
             } else {
+                productTable.getItems().clear();
                 productTable.getItems().addAll(result.getSuccess().getValue());
             }
         }));
+    }
+
+    private void selectProduct(Product product){
+        labelName.setText("Name - " + product.getProductName());
+        labelPrice.setText("Price - " + product.getPrice());
+        labelAmount.setText("Amount - " + product.getAmount());
+        labelGroup.setText("Group - " + product.getGroupName());
+        labelManufacturer.setText("Manufacturer - " + product.getManufacturer());
+        labelDescription.setText("Description:\n" + product.getDescription());
     }
 
 }
