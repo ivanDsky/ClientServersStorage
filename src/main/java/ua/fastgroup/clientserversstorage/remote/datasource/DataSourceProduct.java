@@ -44,6 +44,14 @@ public class DataSourceProduct {
         return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
     }
 
+    public CompletableFuture<HttpResponse<String>> searchProduct(String productName){
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(uri + "product/?name=" + productName))
+                .GET()
+                .build();
+        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
+
     public CompletableFuture<HttpResponse<String>> getAllProducts() {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri + "product/all"))

@@ -69,6 +69,19 @@ public class Repository {
         });
     }
 
+    public CompletableFuture<Result<List<Product>>> searchProduct(String productName) {
+        return dataSourceProduct.searchProduct(productName).thenApply(response -> {
+            try {
+                if (response.statusCode() == 200)
+                    return new Success(mapper.readValue(response.body(), new TypeReference<List<Product>>(){}));
+                else
+                    return new Error(response.body());
+            } catch (JsonProcessingException e) {
+                return new Error("Incorrect json");
+            }
+        });
+    }
+
     public CompletableFuture<Result<Product>> getProduct(String productName) {
         return dataSourceProduct.getProduct(productName).thenApply(response -> {
             try {

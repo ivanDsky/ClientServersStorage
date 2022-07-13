@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import ua.fastgroup.clientserversstorage.models.Product;
 import ua.fastgroup.clientserversstorage.remote.repository.Repository;
+import ua.fastgroup.clientserversstorage.remote.result.Result;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,16 @@ public class ProductsController {
     @FXML
     private Label labelDescription;
 
-    public void init(Repository repository){
+    @FXML
+    private TextField search;
+
+    @FXML
+    private Button buttonUpdate;
+
+    @FXML
+    private Button buttonDelete;
+
+    public void init(Repository repository) {
         this.repository = repository;
         columns.add(new TableColumn<Product, String>("Name"));
         columns.add(new TableColumn<Product, Double>("Price"));
@@ -58,10 +68,44 @@ public class ProductsController {
                 (observableValue, productTableViewSelectionModel, newValue) ->
                         selectProduct(newValue)
         );
+        selectProduct(null);
     }
 
-    private void reload(){
-        repository.getAllProducts().thenAccept(result-> Platform.runLater(()->{
+    @FXML
+    private void onAdd() {
+
+    }
+
+    @FXML
+    private void onUpdate() {
+
+    }
+
+    @FXML
+    private void onDelete() {
+        repository.deleteProduct(productTable.getSelectionModel().getSelectedItem().getProductName())
+                .thenAccept(result -> Platform.runLater(() -> {
+                    if (result.isError()) {
+                        alert.setContentText(result.getError().getMessage());
+                        alert.show();
+                        System.out.println(result.getError().getMessage());
+                    } else {
+                        onSearch();
+                    }
+                }));
+    }
+
+    @FXML
+    private void onSearch() {
+        repository.searchProduct(search.getText()).thenAccept(result -> showResultList(result));
+    }
+
+    private void reload() {
+        repository.getAllProducts().thenAccept(result -> showResultList(result));
+    }
+
+    private void showResultList(Result<List<Product>> result) {
+        Platform.runLater(() -> {
             if (result.isError()) {
                 alert.setContentText(result.getError().getMessage());
                 alert.show();
@@ -70,15 +114,17 @@ public class ProductsController {
                 productTable.getItems().clear();
                 productTable.getItems().addAll(result.getSuccess().getValue());
             }
-        }));
+        });
     }
 
-    private void selectProduct(Product product){
-        labelName.setText("Name - " + product.getProductName());
-        labelPrice.setText("Price - " + product.getPrice());
-        labelAmount.setText("Amount - " + product.getAmount());
-        labelGroup.setText("Group - " + product.getGroupName());
-        labelManufacturer.setText("Manufacturer - " + product.getManufacturer());
-        labelDescription.setText("Description:\n" + product.getDescription());
+    private void selectProduct(Product product) {
+        buttonUpdate.setDisable(product == null);
+        buttonDelete.setDisable(product == null);
+        labelName.setText("Name - " + (product == null ? "" : product.getProductName()));
+        labelPrice.setText("Price - " + (product == null ? "" : product.getPrice()));
+        labelAmount.setText("Amount - " + (product == null ? "" : product.getAmount()));
+        labelGroup.setText("Group - " + (product == null ? "" : product.getGroupName()));
+        labelManufacturer.setText("Manufacturer - " + (product == null ? "" : product.getManufacturer()));
+        labelDescription.setText("Description:\n" + (product == null ? "" : product.getDescription()));
     }
 }
