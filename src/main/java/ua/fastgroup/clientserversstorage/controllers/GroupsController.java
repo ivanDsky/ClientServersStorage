@@ -25,6 +25,7 @@ public class GroupsController {
 
     private final Alert alert = new Alert(Alert.AlertType.ERROR);
     private Repository repository;
+    private ProductsController productsController;
 
     @FXML
     private Label labelGroupName;
@@ -46,7 +47,8 @@ public class GroupsController {
     private Button getAllProductsGroup;
 
 
-    public void init(Repository repository) {
+    public void init(Repository repository, ProductsController productsController) {
+        this.productsController = productsController;
         this.repository = repository;
         columns.add(new TableColumn<Group, String>("Name"));
         columns.add(new TableColumn<Group, String>("Description"));
@@ -97,23 +99,45 @@ public class GroupsController {
         stage.setTitle("Add group");
         stage.setScene(new Scene(group));
         stage.show();
-        stage.setOnCloseRequest(windowEvent -> reload());
+        stage.setOnCloseRequest(windowEvent -> {
+            reload();
+            productsController.reload();
+        });
     }
 
     public void onDelete() {
-//       repository.deleteGroup(groupTable.getSelectionModel().getSelectedItem().getGroupName())
-//               .thenAccept(result -> Platform.runLater(() -> {
-//                   if (result.isError()) {
-//                       alert.setContentText(result.getError().getMessage());
-//                       alert.show();
-//                       System.out.println(result.getError().getMessage());
-//                   } else {
-////                       onSearch();
-//                   }
-//               }));
+        repository.deleteGroup(groupTable.getSelectionModel().getSelectedItem().getGroupName())
+                .thenAccept(result -> Platform.runLater(() -> {
+                    if (result.isError()) {
+                        alert.setContentText(result.getError().getMessage());
+                        alert.show();
+                        System.out.println(result.getError().getMessage());
+                    } else {
+                        alert.setAlertType(Alert.AlertType.INFORMATION);
+                        alert.setContentText("Deleted successfully");
+                        alert.show();
+                        alert.setAlertType(Alert.AlertType.ERROR);
+                        reload();
+                        productsController.reload();
+                    }
+                }));
     }
 
     public void onDeleteAll() {
+        repository.clearDatabase().thenAccept(result -> Platform.runLater(() -> {
+            if (result.isError()) {
+                alert.setContentText(result.getError().getMessage());
+                alert.show();
+                System.out.println(result.getError().getMessage());
+            } else {
+                alert.setAlertType(Alert.AlertType.INFORMATION);
+                alert.setContentText("Deleted successfully");
+                alert.show();
+                alert.setAlertType(Alert.AlertType.ERROR);
+                reload();
+                productsController.reload();
+            }
+        }));
     }
 
     public void onGetPrice() {
@@ -133,24 +157,34 @@ public class GroupsController {
                 }));
     }
 
-    //TODO open new window with table
-    public void onGetAllProducts() {
+    public void onGetAllProducts() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("show-products-view.fxml"));
+        Parent group = fxmlLoader.load();
+        ShowProductsController controller = fxmlLoader.getController();
+        controller.init(repository);
 
+        Stage stage = new Stage();
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(deleteGroup.getScene().getWindow());
+        stage.setTitle("Add group");
+        stage.setScene(new Scene(group));
+        stage.show();
+        stage.setOnCloseRequest(windowEvent -> reload());
     }
 
-    //TODO open new window with table
-    public void onGetAllProductsGroup() {
-        repository.getAllProductsByGroup(groupTable.getSelectionModel().getSelectedItem().getGroupName())
-                .thenAccept(result -> Platform.runLater(() -> {
-                    if (result.isError()) {
-                        alert.setContentText(result.getError().getMessage());
-                        alert.show();
-                        System.out.println(result.getError().getMessage());
-                    } else {
-                        alert.setContentText(result.getSuccess().getValue() + "");
-                        alert.show();
-                    }
-                }));
+    public void onGetAllProductsGroup() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("show-products-view.fxml"));
+        Parent group = fxmlLoader.load();
+        ShowProductsController controller = fxmlLoader.getController();
+        controller.init(repository, groupTable.getSelectionModel().getSelectedItem());
+
+        Stage stage = new Stage();
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(deleteGroup.getScene().getWindow());
+        stage.setTitle("Add group");
+        stage.setScene(new Scene(group));
+        stage.show();
+        stage.setOnCloseRequest(windowEvent -> reload());
     }
 
     private void reload() {
@@ -175,7 +209,6 @@ public class GroupsController {
         deleteGroup.setDisable(group == null);
         deleteAll.setDisable(repository.getAllGroups() == null);
         getPriceGroup.setDisable(group == null);
-        getAllProducts.setDisable(group != null);
         getAllProductsGroup.setDisable(group == null);
         labelGroupName.setText("Name - " + (group == null ? "" : group.getGroupName()));
         labelDescription.setText("Description:\n" + (group == null ? "" : group.getDescription()));
