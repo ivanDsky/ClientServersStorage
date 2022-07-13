@@ -5,9 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ua.fastgroup.clientserversstorage.controllers.AddUpdateController;
 import ua.fastgroup.clientserversstorage.controllers.MainController;
-import ua.fastgroup.clientserversstorage.models.Product;
 import ua.fastgroup.clientserversstorage.remote.repository.Repository;
 
 import java.io.IOException;
