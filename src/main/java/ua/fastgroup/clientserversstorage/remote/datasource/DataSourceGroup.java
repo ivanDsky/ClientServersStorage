@@ -67,4 +67,12 @@ public class DataSourceGroup {
                 .build();
         return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
     }
+
+    public CompletableFuture<HttpResponse<String>> clearDatabase() {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create((uri + "group/all")))
+                .DELETE()
+                .build();
+        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
 }
