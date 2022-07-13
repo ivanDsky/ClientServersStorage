@@ -20,7 +20,7 @@
          <children>
             <Label fx:id="labelGroupName">
                <VBox.margin>
-                  <Insets bottom="8.0" left="16.0" right="16.0" top="24.0" />
+                  <Insets bottom="8.0" left="16.0" right="16.0" top="16.0" />
                </VBox.margin>
             </Label>
             <Label fx:id="labelDescription">
@@ -35,22 +35,32 @@
             </Button>
             <Button fx:id="updateGroup" mnemonicParsing="false" onAction="#onUpdate" text="Update">
                <VBox.margin>
-                  <Insets top="24.0" />
+                  <Insets top="16.0" />
                </VBox.margin>
             </Button>
             <Button fx:id="deleteGroup" mnemonicParsing="false" onAction="#onDelete" text="Delete group">
                <VBox.margin>
-                  <Insets top="24.0" />
+                  <Insets top="16.0" />
                </VBox.margin>
             </Button>
             <Button fx:id="deleteAll" mnemonicParsing="false" onAction="#onDeleteAll" text="Delete all">
                <VBox.margin>
-                  <Insets top="24.0" />
+                  <Insets top="16.0" />
                </VBox.margin>
             </Button>
             <Button fx:id="getPriceGroup" mnemonicParsing="false" onAction="#onGetPrice" text="Get price of group">
                <VBox.margin>
-                  <Insets top="24.0" />
+                  <Insets top="16.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="getAllProducts" mnemonicParsing="false"  onAction="#onGetAllProducts" text="Get all products">
+               <VBox.margin>
+                  <Insets top="16.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="getAllProductsGroup" mnemonicParsing="false"  onAction="#onGetAllProductsGroup" text="Get products from group">
+               <VBox.margin>
+                  <Insets top="16.0" />
                </VBox.margin>
             </Button>
          </children></VBox>

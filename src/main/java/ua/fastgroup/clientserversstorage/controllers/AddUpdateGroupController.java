@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import ua.fastgroup.clientserversstorage.models.Group;
 import ua.fastgroup.clientserversstorage.remote.repository.Repository;
 import ua.fastgroup.clientserversstorage.remote.result.Result;
@@ -69,6 +70,10 @@ public class AddUpdateGroupController {
                 alert.setContentText(result.getError().getMessage());
                 alert.show();
                 System.out.println(result.getError().getMessage());
+            }  else {
+                Stage stage = (Stage) addButton.getScene().getWindow();
+                stage.getOnCloseRequest().handle(null);
+                stage.close();
             }
             addButton.setDisable(false);
         }));
