@@ -2,6 +2,7 @@ package ua.fastgroup.clientserversstorage.remote.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ua.fastgroup.clientserversstorage.models.Group;
 import ua.fastgroup.clientserversstorage.models.Product;
 import ua.fastgroup.clientserversstorage.remote.datasource.DataSource;
 import ua.fastgroup.clientserversstorage.remote.result.Error;
@@ -68,5 +69,27 @@ public class Repository {
                 return new Error("Incorrect json");
             }
         });
+    }
+
+    public CompletableFuture<Result<Object>> addGroup(Group group) {
+        try {
+            return dataSource.addGroup(group).thenApply(response -> {
+                if (response.statusCode() == 200) return new Success(null);
+                else return new Error(response.body());
+            });
+        } catch (JsonProcessingException e) {
+            return CompletableFuture.completedFuture(new Error("Incorrect json"));
+        }
+    }
+
+    public CompletableFuture<Result<Object>> updateGroup(String groupName, Group group) {
+        try {
+            return dataSource.updateGroup(groupName, group).thenApply(response -> {
+                if (response.statusCode() == 200) return new Success(null);
+                else return new Error(response.body());
+            });
+        } catch (JsonProcessingException e) {
+            return CompletableFuture.completedFuture(new Error("Incorrect json"));
+        }
     }
 }
