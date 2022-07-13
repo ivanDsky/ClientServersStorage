@@ -18,6 +18,7 @@ import ua.fastgroup.clientserversstorage.remote.result.Result;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ProductsController {
     @FXML
@@ -119,51 +120,42 @@ public class ProductsController {
     @FXML
     private void onDelete() {
         repository.deleteProduct(productTable.getSelectionModel().getSelectedItem().getProductName())
-                .thenAccept(result -> Platform.runLater(() -> {
-                    if (result.isError()) {
-                        alert.setContentText(result.getError().getMessage());
-                        alert.show();
-                        System.out.println(result.getError().getMessage());
-                    } else {
-                        onSearch();
-                    }
-                }));
+                .thenAccept(result -> showResult(result, this::onSearch));
     }
 
     @FXML
     private void onSearch() {
-        repository.searchProduct(search.getText()).thenAccept(result -> showResultList(result));
+        repository.searchProduct(search.getText()).thenAccept(this::showResultList);
     }
 
     @FXML
     private void onTotalPrice() {
         repository.getTotalPrice(productTable.getSelectionModel().getSelectedItem().getProductName())
-            .thenAccept(result -> Platform.runLater(() -> {
-                if (result.isError()) {
-                    alert.setContentText(result.getError().getMessage());
-                    alert.show();
-                    System.out.println(result.getError().getMessage());
-                } else {
+                .thenAccept(result -> showResult(result, () -> {
                     alert.setContentText("Total price = " + result.getSuccess().getValue());
                     alert.show();
-                }
-            }));
+                }));
     }
 
+
     private void reload() {
-        repository.getAllProducts().thenAccept(result -> showResultList(result));
+        repository.getAllProducts().thenAccept(this::showResultList);
     }
 
     private void showResultList(Result<List<Product>> result) {
+        showResult(result, () -> {
+            productTable.getItems().clear();
+            productTable.getItems().addAll(result.getSuccess().getValue());
+        });
+    }
+
+    private void showResult(Result<?> result, Runnable runnable) {
         Platform.runLater(() -> {
             if (result.isError()) {
                 alert.setContentText(result.getError().getMessage());
                 alert.show();
                 System.out.println(result.getError().getMessage());
-            } else {
-                productTable.getItems().clear();
-                productTable.getItems().addAll(result.getSuccess().getValue());
-            }
+            } else runnable.run();
         });
     }
 
