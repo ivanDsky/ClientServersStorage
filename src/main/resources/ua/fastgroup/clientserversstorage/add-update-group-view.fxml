@@ -27,12 +27,12 @@
       <Label fx:id="title" alignment="CENTER" text="Add group" textAlignment="CENTER" GridPane.columnSpan="2" GridPane.halignment="CENTER" />
       <Label text="Group Name" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
       <Label text="Group Description" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-      <TextField fx:id="groupName" text="group1" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <TextField fx:id="groupName" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
          </GridPane.margin>
       </TextField>
-      <TextField fx:id="description" text="description" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <TextField fx:id="description" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
          </GridPane.margin>
