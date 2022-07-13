@@ -10,17 +10,17 @@ import ua.fastgroup.clientserversstorage.remote.repository.Repository;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class Storage extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Storage.class.getResource("main-view.fxml"));
 
         Parent root = fxmlLoader.load();
         MainController controller = fxmlLoader.getController();
         controller.init(new Repository());
 
         Scene scene = new Scene(root);
-        stage.setTitle("Hello!");
+        stage.setTitle("Automated Storage");
         stage.setScene(scene);
         stage.show();
     }

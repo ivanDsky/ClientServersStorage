@@ -20,11 +20,9 @@ public class Repository {
             .build();
     private final static String uri = "http://localhost:8765/api/";
 
-    //    private final DataSource dataSource = new DataSource();
     private final DataSourceProduct dataSourceProduct = new DataSourceProduct(client, uri);
     private final DataSourceGroup dataSourceGroup = new DataSourceGroup(client, uri);
     private ObjectMapper mapper = new ObjectMapper();
-
 
     public CompletableFuture<Result<Object>> addProduct(Product product) {
         try {

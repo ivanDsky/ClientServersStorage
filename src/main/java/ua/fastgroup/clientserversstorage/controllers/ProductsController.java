@@ -9,7 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ua.fastgroup.clientserversstorage.HelloApplication;
+import ua.fastgroup.clientserversstorage.Storage;
+import ua.fastgroup.clientserversstorage.controllers.add_and_update.AddUpdateProductController;
 import ua.fastgroup.clientserversstorage.models.Product;
 import ua.fastgroup.clientserversstorage.remote.repository.Repository;
 import ua.fastgroup.clientserversstorage.remote.result.Result;
@@ -17,17 +18,13 @@ import ua.fastgroup.clientserversstorage.remote.result.Result;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class ProductsController {
     @FXML
     private TableView<Product> productTable;
-    private List<TableColumn<Product, ?>> columns = new ArrayList<>();
-
+    private final List<TableColumn<Product, ?>> columns = new ArrayList<>();
     private final Alert alert = new Alert(Alert.AlertType.ERROR);
     private Repository repository;
-
-
     @FXML
     private Label labelName;
     @FXML
@@ -40,13 +37,10 @@ public class ProductsController {
     private Label labelManufacturer;
     @FXML
     private Label labelDescription;
-
     @FXML
     private TextField search;
-
     @FXML
     private Button buttonUpdate;
-
     @FXML
     private Button buttonDelete;
     @FXML
@@ -88,7 +82,7 @@ public class ProductsController {
 
     @FXML
     private void onAdd() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("add-update-product-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Storage.class.getResource("add-update-product-view.fxml"));
 
         Parent product = fxmlLoader.load();
         AddUpdateProductController controller = fxmlLoader.getController();
@@ -105,7 +99,7 @@ public class ProductsController {
 
     @FXML
     private void onUpdate() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("add-update-product-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Storage.class.getResource("add-update-product-view.fxml"));
 
         Parent product = fxmlLoader.load();
         AddUpdateProductController controller = fxmlLoader.getController();
@@ -143,7 +137,7 @@ public class ProductsController {
 
     @FXML
     private void onIncrease() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("increase-decrease-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Storage.class.getResource("increase-decrease-view.fxml"));
 
         Parent product = fxmlLoader.load();
         IncreaseDecreaseController controller = fxmlLoader.getController();
@@ -163,7 +157,7 @@ public class ProductsController {
 
     @FXML
     private void onDecrease() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("increase-decrease-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Storage.class.getResource("increase-decrease-view.fxml"));
 
         Parent product = fxmlLoader.load();
         IncreaseDecreaseController controller = fxmlLoader.getController();
@@ -182,7 +176,7 @@ public class ProductsController {
     }
 
 
-    private void reload() {
+    public void reload() {
         repository.getAllProducts().thenAccept(this::showResultList);
     }
 

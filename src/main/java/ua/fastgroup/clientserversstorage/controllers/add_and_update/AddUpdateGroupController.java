@@ -1,4 +1,4 @@
-package ua.fastgroup.clientserversstorage.controllers;
+package ua.fastgroup.clientserversstorage.controllers.add_and_update;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;

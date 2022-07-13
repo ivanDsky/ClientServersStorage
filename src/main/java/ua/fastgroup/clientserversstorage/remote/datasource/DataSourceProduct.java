@@ -9,7 +9,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 
 public class DataSourceProduct {
     private final HttpClient httpClient;
@@ -45,7 +44,7 @@ public class DataSourceProduct {
         return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    public CompletableFuture<HttpResponse<String>> searchProduct(String productName){
+    public CompletableFuture<HttpResponse<String>> searchProduct(String productName) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri + "product/?name=" + productName))
                 .GET()

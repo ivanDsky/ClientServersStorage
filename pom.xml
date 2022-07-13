@@ -78,7 +78,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                ua.fastgroup.clientserversstorage/ua.fastgroup.clientserversstorage.HelloApplication
+                                ua.fastgroup.clientserversstorage/ua.fastgroup.clientserversstorage.Storage
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

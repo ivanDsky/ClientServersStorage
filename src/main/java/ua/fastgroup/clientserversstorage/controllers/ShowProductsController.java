@@ -16,12 +16,10 @@ import java.util.concurrent.CompletableFuture;
 
 public class ShowProductsController {
     @FXML
-    Label title;
-    @FXML
-    Button closeButton;
+    private Button closeButton;
     @FXML
     private TableView<Product> productTable;
-    private List<TableColumn<Product, ?>> columns = new ArrayList<>();
+    private final List<TableColumn<Product, ?>> columns = new ArrayList<>();
 
     private Repository repository;
     private final Alert alert = new Alert(Alert.AlertType.ERROR);

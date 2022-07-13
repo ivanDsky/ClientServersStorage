@@ -13,4 +13,6 @@ module ua.fastgroup.clientserversstorage {
     opens ua.fastgroup.clientserversstorage.controllers to javafx.fxml;
     exports ua.fastgroup.clientserversstorage.models to com.fasterxml.jackson.databind;
     opens ua.fastgroup.clientserversstorage.models to javafx.base;
+    exports ua.fastgroup.clientserversstorage.controllers.add_and_update;
+    opens ua.fastgroup.clientserversstorage.controllers.add_and_update to javafx.fxml;
 }
