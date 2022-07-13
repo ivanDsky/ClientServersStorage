@@ -113,6 +113,7 @@ public class AddUpdateProductController {
                 System.out.println(result.getError().getMessage());
             } else {
                 Stage stage = (Stage) addButton.getScene().getWindow();
+                stage.getOnCloseRequest().handle(null);
                 stage.close();
             }
             addButton.setDisable(false);

@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ua.fastgroup.clientserversstorage.HelloApplication;
 import ua.fastgroup.clientserversstorage.models.Product;
@@ -48,8 +49,10 @@ public class ProductsController {
 
     @FXML
     private Button buttonDelete;
+    @FXML
+    private Button buttonTotalPrice;
 
-    public void init(Repository repository) throws IOException {
+    public void init(Repository repository) {
         this.repository = repository;
 
         columns.add(new TableColumn<Product, String>("Name"));
@@ -73,7 +76,7 @@ public class ProductsController {
         productTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         productTable.getSelectionModel().selectedItemProperty().addListener(
-                (observableValue, productTableViewSelectionModel, newValue) ->
+                (observableValue, oldValue, newValue) ->
                         selectProduct(newValue)
         );
         selectProduct(null);
@@ -85,12 +88,15 @@ public class ProductsController {
 
         Parent product = fxmlLoader.load();
         AddUpdateProductController controller = fxmlLoader.getController();
-        controller.init(repository,null);
+        controller.init(repository, null);
 
         Stage stage = new Stage();
-        stage.setTitle("My New Stage Title");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(buttonDelete.getScene().getWindow());
+        stage.setTitle("Add product");
         stage.setScene(new Scene(product));
         stage.show();
+        stage.setOnCloseRequest(windowEvent -> reload());
     }
 
     @FXML
@@ -99,12 +105,15 @@ public class ProductsController {
 
         Parent product = fxmlLoader.load();
         AddUpdateProductController controller = fxmlLoader.getController();
-        controller.init(repository,productTable.getSelectionModel().getSelectedItem());
+        controller.init(repository, productTable.getSelectionModel().getSelectedItem());
 
         Stage stage = new Stage();
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(buttonDelete.getScene().getWindow());
         stage.setTitle("Update product");
         stage.setScene(new Scene(product));
         stage.show();
+        stage.setOnCloseRequest(windowEvent -> reload());
     }
 
     @FXML
@@ -124,6 +133,21 @@ public class ProductsController {
     @FXML
     private void onSearch() {
         repository.searchProduct(search.getText()).thenAccept(result -> showResultList(result));
+    }
+
+    @FXML
+    private void onTotalPrice() {
+        repository.getTotalPrice(productTable.getSelectionModel().getSelectedItem().getProductName())
+            .thenAccept(result -> Platform.runLater(() -> {
+                if (result.isError()) {
+                    alert.setContentText(result.getError().getMessage());
+                    alert.show();
+                    System.out.println(result.getError().getMessage());
+                } else {
+                    alert.setContentText("Total price = " + result.getSuccess().getValue());
+                    alert.show();
+                }
+            }));
     }
 
     private void reload() {
@@ -146,6 +170,7 @@ public class ProductsController {
     private void selectProduct(Product product) {
         buttonUpdate.setDisable(product == null);
         buttonDelete.setDisable(product == null);
+        buttonTotalPrice.setDisable(product == null);
         labelName.setText("Name - " + (product == null ? "" : product.getProductName()));
         labelPrice.setText("Price - " + (product == null ? "" : product.getPrice()));
         labelAmount.setText("Amount - " + (product == null ? "" : product.getAmount()));

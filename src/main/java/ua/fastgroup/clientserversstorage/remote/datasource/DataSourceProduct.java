@@ -60,6 +60,14 @@ public class DataSourceProduct {
         return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
     }
 
+    public CompletableFuture<HttpResponse<String>> getTotalPrice(String productName) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(uri + "price/product/" + productName))
+                .GET()
+                .build();
+        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
+
     public CompletableFuture<HttpResponse<String>> getProduct(String productName) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri + "product/" + productName))
