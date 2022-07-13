@@ -2,12 +2,19 @@ package ua.fastgroup.clientserversstorage.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import ua.fastgroup.clientserversstorage.HelloApplication;
 import ua.fastgroup.clientserversstorage.models.Product;
 import ua.fastgroup.clientserversstorage.remote.repository.Repository;
 import ua.fastgroup.clientserversstorage.remote.result.Result;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +49,9 @@ public class ProductsController {
     @FXML
     private Button buttonDelete;
 
-    public void init(Repository repository) {
+    public void init(Repository repository) throws IOException {
         this.repository = repository;
+
         columns.add(new TableColumn<Product, String>("Name"));
         columns.add(new TableColumn<Product, Double>("Price"));
         columns.add(new TableColumn<Product, Integer>("Amount"));
@@ -72,13 +80,31 @@ public class ProductsController {
     }
 
     @FXML
-    private void onAdd() {
+    private void onAdd() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("add-update-product-view.fxml"));
 
+        Parent product = fxmlLoader.load();
+        AddUpdateProductController controller = fxmlLoader.getController();
+        controller.init(repository,null);
+
+        Stage stage = new Stage();
+        stage.setTitle("My New Stage Title");
+        stage.setScene(new Scene(product));
+        stage.show();
     }
 
     @FXML
-    private void onUpdate() {
+    private void onUpdate() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("add-update-product-view.fxml"));
 
+        Parent product = fxmlLoader.load();
+        AddUpdateProductController controller = fxmlLoader.getController();
+        controller.init(repository,productTable.getSelectionModel().getSelectedItem());
+
+        Stage stage = new Stage();
+        stage.setTitle("Update product");
+        stage.setScene(new Scene(product));
+        stage.show();
     }
 
     @FXML

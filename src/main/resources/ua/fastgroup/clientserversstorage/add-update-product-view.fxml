@@ -31,22 +31,22 @@
       <Label text="Amount" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
       <Label text="Manufacturer" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
       <Label text="Description" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-      <TextField fx:id="productName" text="asa" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <TextField fx:id="productName" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
          </GridPane.margin>
       </TextField>
-      <TextField fx:id="groupName" text="temp3" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <TextField fx:id="groupName" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
          </GridPane.margin>
       </TextField>
-      <TextField fx:id="productPrice" layoutX="310.0" layoutY="198.0" text="10" GridPane.columnIndex="1" GridPane.rowIndex="3">
+      <TextField fx:id="productPrice" layoutX="310.0" layoutY="198.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
          </GridPane.margin>
       </TextField>
-      <TextField fx:id="productAmount" layoutX="176.0" layoutY="173.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <TextField fx:id="productAmount" layoutX="176.0" layoutY="173.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
          </GridPane.margin>

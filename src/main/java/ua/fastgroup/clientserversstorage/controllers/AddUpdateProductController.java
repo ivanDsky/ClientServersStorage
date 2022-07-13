@@ -3,6 +3,7 @@ package ua.fastgroup.clientserversstorage.controllers;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import ua.fastgroup.clientserversstorage.models.Product;
@@ -36,10 +37,24 @@ public class AddUpdateProductController {
 
     private Product prevProduct;
 
-    public void init(Repository repository, Product product){
+    public void init(Repository repository, Product product) {
         this.repository = repository;
         prevProduct = product;
-        if (prevProduct == null) {
+        TextFormatter<Integer> intFormatter = new TextFormatter<>(
+                new IntegerStringConverter(),
+                0,
+                c -> Pattern.matches("\\d*", c.getText()) ? c : null);
+
+        Pattern pattern = Pattern.compile("\\d*|\\d+\\.\\d*");
+        TextFormatter<Double> doubleFormatter = new TextFormatter<>(
+                new DoubleStringConverter(),
+                0.0,
+                change -> pattern.matcher(change.getControlNewText()).matches() ? change : null);
+
+        productPrice.setTextFormatter(doubleFormatter);
+        productAmount.setTextFormatter(intFormatter);
+
+        if (product == null) {
             title.setText("Add product");
             addButton.setText("Add");
         } else {
@@ -52,20 +67,6 @@ public class AddUpdateProductController {
             productManufacturer.setText(product.getManufacturer());
             productDescription.setText(product.getDescription());
         }
-
-        TextFormatter<Integer> intFormatter = new TextFormatter<>(
-                new IntegerStringConverter(),
-                0,
-                c -> Pattern.matches("\\d*", c.getText()) ? c : null );
-
-        Pattern pattern = Pattern.compile("\\d*|\\d+\\.\\d*");
-        TextFormatter<Double> doubleFormatter = new TextFormatter<>(
-                new DoubleStringConverter(),
-                0.0,
-                change -> pattern.matcher(change.getControlNewText()).matches() ? change : null);
-
-        productPrice.setTextFormatter(doubleFormatter);
-        productAmount.setTextFormatter(intFormatter);
     }
 
     @FXML
@@ -99,7 +100,7 @@ public class AddUpdateProductController {
         sendRequest(product);
     }
 
-    private void sendRequest(Product product){
+    private void sendRequest(Product product) {
         CompletableFuture<Result<Object>> res = (prevProduct == null) ?
                 repository.addProduct(product) :
                 repository.updateProduct(prevProduct.getProductName(), product);
@@ -110,12 +111,15 @@ public class AddUpdateProductController {
                 alert.setContentText(result.getError().getMessage());
                 alert.show();
                 System.out.println(result.getError().getMessage());
+            } else {
+                Stage stage = (Stage) addButton.getScene().getWindow();
+                stage.close();
             }
             addButton.setDisable(false);
         }));
     }
 
-    private Object getOrNull(Object prev, Object cur){
+    private Object getOrNull(Object prev, Object cur) {
         if (prev == null) return cur;
         if (prev.equals(cur)) return null;
         return cur;

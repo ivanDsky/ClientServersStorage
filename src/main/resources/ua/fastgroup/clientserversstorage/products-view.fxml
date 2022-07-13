@@ -20,7 +20,7 @@
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="buttonUpdate" mnemonicParsing="false" text="Update">
+            <Button fx:id="buttonUpdate" mnemonicParsing="false" onAction="#onUpdate" text="Update">
                <VBox.margin>
                   <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
                </VBox.margin>
@@ -67,7 +67,7 @@
          <children>
             <HBox>
                <children>
-                  <Button fx:id="buttonAdd" mnemonicParsing="false" text="Add new">
+                  <Button fx:id="buttonAdd" mnemonicParsing="false" onAction="#onAdd" text="Add new">
                      <HBox.margin>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                      </HBox.margin>
