@@ -43,4 +43,28 @@ public class DataSourceGroup {
                 .build();
         return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
     }
+
+    public CompletableFuture<HttpResponse<String>> deleteGroup(String groupName) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(uri + "group/" + groupName))
+                .DELETE()
+                .build();
+        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    public CompletableFuture<HttpResponse<String>> getGroupPrice(String groupName) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(uri + "price/group/" + groupName))
+                .GET()
+                .build();
+        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    public CompletableFuture<HttpResponse<String>> getProductByGroup(String groupName) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create((uri + "group/" + groupName)))
+                .GET()
+                .build();
+        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
 }

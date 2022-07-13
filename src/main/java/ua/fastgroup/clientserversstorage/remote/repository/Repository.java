@@ -69,11 +69,26 @@ public class Repository {
         });
     }
 
+    public CompletableFuture<Result<List<Product>>> getAllProductsByGroup(String groupName) {
+        return dataSourceGroup.getProductByGroup(groupName).thenApply(response -> {
+            try {
+                if (response.statusCode() == 200)
+                    return new Success(mapper.readValue(response.body(), new TypeReference<List<Product>>() {
+                    }));
+                else
+                    return new Error(response.body());
+            } catch (JsonProcessingException e) {
+                return new Error("Incorrect json");
+            }
+        });
+    }
+
     public CompletableFuture<Result<List<Product>>> searchProduct(String productName) {
         return dataSourceProduct.searchProduct(productName).thenApply(response -> {
             try {
                 if (response.statusCode() == 200)
-                    return new Success(mapper.readValue(response.body(), new TypeReference<List<Product>>(){}));
+                    return new Success(mapper.readValue(response.body(), new TypeReference<List<Product>>() {
+                    }));
                 else
                     return new Error(response.body());
             } catch (JsonProcessingException e) {
@@ -158,6 +173,26 @@ public class Repository {
                 if (response.statusCode() == 200)
                     return new Success(mapper.readValue(response.body(), new TypeReference<List<Group>>() {
                     }));
+                else
+                    return new Error(response.body());
+            } catch (JsonProcessingException e) {
+                return new Error("Incorrect json");
+            }
+        });
+    }
+
+    public CompletableFuture<Result<Object>> deleteGroup(String groupName) {
+        return dataSourceGroup.deleteGroup(groupName).thenApply(response -> {
+            if (response.statusCode() == 200) return new Success(null);
+            else return new Error(response.body());
+        });
+    }
+
+    public CompletableFuture<Result<Object>> getGroupPrice(String groupName) {
+        return dataSourceGroup.getGroupPrice(groupName).thenApply(response -> {
+            try {
+                if (response.statusCode() == 200)
+                    return new Success(mapper.readValue(response.body(), Double.class));
                 else
                     return new Error(response.body());
             } catch (JsonProcessingException e) {
