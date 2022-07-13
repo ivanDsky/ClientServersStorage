@@ -12,7 +12,7 @@ import ua.fastgroup.clientserversstorage.remote.result.Result;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Pattern;
 
-public class AddUpdateController {
+public class AddUpdateProductController {
     @FXML
     Label title;
     @FXML
