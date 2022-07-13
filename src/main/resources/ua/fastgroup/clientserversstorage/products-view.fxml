@@ -11,30 +11,54 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.fastgroup.clientserversstorage.controllers.ProductsController">
    <center>
-      <TableView fx:id="productTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TableView>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <HBox>
+               <children>
+                  <Button fx:id="buttonUpdate" mnemonicParsing="false" onAction="#onUpdate" prefWidth="1000.0" text="Update">
+                     <HBox.margin>
+                        <Insets left="8.0" right="8.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="buttonDelete" mnemonicParsing="false" onAction="#onDelete" prefWidth="1000.0" text="Delete">
+                     <HBox.margin>
+                        <Insets left="8.0" right="8.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="buttonTotalPrice" mnemonicParsing="false" onAction="#onTotalPrice" prefWidth="1000.0" text="Total price">
+                     <HBox.margin>
+                        <Insets left="8.0" right="8.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="buttonIncrease" mnemonicParsing="false" onAction="#onIncrease" prefWidth="1000.0" text="Increase">
+                     <HBox.margin>
+                        <Insets left="8.0" right="8.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="buttonDecrease" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onDecrease" prefWidth="1000.0" text="Decrease">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets left="8.0" right="8.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+            </HBox>
+            <TableView fx:id="productTable" prefHeight="200.0" prefWidth="200.0">
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </children>
+      </VBox>
    </center>
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="buttonUpdate" mnemonicParsing="false" onAction="#onUpdate" text="Update">
-               <VBox.margin>
-                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="buttonDelete" mnemonicParsing="false" onAction="#onDelete" text="Delete">
-               <VBox.margin>
-                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="buttonTotalPrice" mnemonicParsing="false" onAction="#onTotalPrice" text="Total price">
-               <VBox.margin>
-                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
-               </VBox.margin>
-            </Button>
             <Label fx:id="labelName" text="Name - ">
                <VBox.margin>
                   <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />

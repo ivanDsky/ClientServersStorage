@@ -51,6 +51,10 @@ public class ProductsController {
     private Button buttonDelete;
     @FXML
     private Button buttonTotalPrice;
+    @FXML
+    private Button buttonIncrease;
+    @FXML
+    private Button buttonDecrease;
 
     public void init(Repository repository) {
         this.repository = repository;
@@ -131,9 +135,50 @@ public class ProductsController {
     private void onTotalPrice() {
         repository.getTotalPrice(productTable.getSelectionModel().getSelectedItem().getProductName())
                 .thenAccept(result -> showResult(result, () -> {
+                    alert.setAlertType(Alert.AlertType.INFORMATION);
                     alert.setContentText("Total price = " + result.getSuccess().getValue());
                     alert.show();
                 }));
+    }
+
+    @FXML
+    private void onIncrease() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("increase-decrease-view.fxml"));
+
+        Parent product = fxmlLoader.load();
+        IncreaseDecreaseController controller = fxmlLoader.getController();
+        controller.init("Input amount to increase", "Increase", (amount) ->
+                repository.increaseProduct(
+                        productTable.getSelectionModel().getSelectedItem().getProductName(),
+                        amount
+                ).thenAccept(result -> showResult(result, this::reload)));
+
+        Stage stage = new Stage();
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(buttonDelete.getScene().getWindow());
+        stage.setTitle("Increase");
+        stage.setScene(new Scene(product));
+        stage.show();
+    }
+
+    @FXML
+    private void onDecrease() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("increase-decrease-view.fxml"));
+
+        Parent product = fxmlLoader.load();
+        IncreaseDecreaseController controller = fxmlLoader.getController();
+        controller.init("Input amount to decrease", "Decrease", (amount) ->
+                repository.decreaseProduct(
+                        productTable.getSelectionModel().getSelectedItem().getProductName(),
+                        amount
+                ).thenAccept(result -> showResult(result, this::reload)));
+
+        Stage stage = new Stage();
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(buttonDelete.getScene().getWindow());
+        stage.setTitle("Decrease");
+        stage.setScene(new Scene(product));
+        stage.show();
     }
 
 
@@ -151,6 +196,7 @@ public class ProductsController {
     private void showResult(Result<?> result, Runnable runnable) {
         Platform.runLater(() -> {
             if (result.isError()) {
+                alert.setAlertType(Alert.AlertType.ERROR);
                 alert.setContentText(result.getError().getMessage());
                 alert.show();
                 System.out.println(result.getError().getMessage());
@@ -162,6 +208,8 @@ public class ProductsController {
         buttonUpdate.setDisable(product == null);
         buttonDelete.setDisable(product == null);
         buttonTotalPrice.setDisable(product == null);
+        buttonIncrease.setDisable(product == null);
+        buttonDecrease.setDisable(product == null);
         labelName.setText("Name - " + (product == null ? "" : product.getProductName()));
         labelPrice.setText("Price - " + (product == null ? "" : product.getPrice()));
         labelAmount.setText("Amount - " + (product == null ? "" : product.getAmount()));

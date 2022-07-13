@@ -69,6 +69,22 @@ public class DataSourceProduct {
         return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
     }
 
+    public CompletableFuture<HttpResponse<String>> increaseProduct(String productName, int amount) throws JsonProcessingException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(uri + "increase/" + productName))
+                .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(amount)))
+                .build();
+        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    public CompletableFuture<HttpResponse<String>> decreaseProduct(String productName, int amount) throws JsonProcessingException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(uri + "decrease/" + productName))
+                .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(amount)))
+                .build();
+        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
+
     public CompletableFuture<HttpResponse<String>> getProduct(String productName) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri + "product/" + productName))

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.fastgroup.clientserversstorage.controllers.IncreaseDecreaseController">
+   <children>
+      <Label fx:id="header" maxHeight="1.7976931348623157E308" text="Enter amount of product to remove">
+         <VBox.margin>
+            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+         </VBox.margin>
+      </Label>
+      <TextField fx:id="input" maxHeight="1.7976931348623157E308">
+         <VBox.margin>
+            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+         </VBox.margin>
+      </TextField>
+      <Button fx:id="submit" maxHeight="1.7976931348623157E308" mnemonicParsing="false" text="Remove">
+         <VBox.margin>
+            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+         </VBox.margin>
+      </Button>
+   </children>
+</VBox>
