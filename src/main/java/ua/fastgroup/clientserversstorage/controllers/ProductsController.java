@@ -3,7 +3,6 @@ package ua.fastgroup.clientserversstorage.controllers;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -85,7 +84,7 @@ public class ProductsController {
 
         Parent product = fxmlLoader.load();
         AddUpdateProductController controller = fxmlLoader.getController();
-        controller.init(repository,null);
+        controller.init(repository, null);
 
         Stage stage = new Stage();
         stage.setTitle("My New Stage Title");
@@ -99,7 +98,7 @@ public class ProductsController {
 
         Parent product = fxmlLoader.load();
         AddUpdateProductController controller = fxmlLoader.getController();
-        controller.init(repository,productTable.getSelectionModel().getSelectedItem());
+        controller.init(repository, productTable.getSelectionModel().getSelectedItem());
 
         Stage stage = new Stage();
         stage.setTitle("Update product");
