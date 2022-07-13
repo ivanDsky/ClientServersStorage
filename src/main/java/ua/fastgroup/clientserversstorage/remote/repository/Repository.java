@@ -95,6 +95,19 @@ public class Repository {
         });
     }
 
+    public CompletableFuture<Result<Double>> getTotalPrice(String productName) {
+        return dataSourceProduct.getTotalPrice(productName).thenApply(response -> {
+            try {
+                if (response.statusCode() == 200)
+                    return new Success(mapper.readValue(response.body(), Double.class));
+                else
+                    return new Error(response.body());
+            } catch (JsonProcessingException e) {
+                return new Error("Incorrect json");
+            }
+        });
+    }
+
     public CompletableFuture<Result<Object>> addGroup(Group group) {
         try {
             return dataSourceGroup.addGroup(group).thenApply(response -> {

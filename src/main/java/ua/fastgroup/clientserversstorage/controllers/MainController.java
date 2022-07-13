@@ -15,14 +15,6 @@ public class MainController {
     @FXML
     TabPane pane;
     public void init(Repository repository) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("products-view.fxml"));
-        Node product = fxmlLoader.load();
-        ProductsController controller = fxmlLoader.getController();
-        controller.init(repository);
-        Tab productTab = new Tab("Products", product);
-        productTab.setClosable(false);
-        pane.getTabs().add(productTab);
-
         FXMLLoader fxmlLoaderGroup = new FXMLLoader(HelloApplication.class.getResource("groups-view.fxml"));
         Node group = fxmlLoaderGroup.load();
         GroupsController controllerGroup = fxmlLoaderGroup.getController();
@@ -30,6 +22,14 @@ public class MainController {
         Tab groupTab = new Tab("Groups", group);
         groupTab.setClosable(false);
         pane.getTabs().add(groupTab);
+
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("products-view.fxml"));
+        Node product = fxmlLoader.load();
+        ProductsController controller = fxmlLoader.getController();
+        controller.init(repository);
+        Tab productTab = new Tab("Products", product);
+        productTab.setClosable(false);
+        pane.getTabs().add(productTab);
     }
 
 }
