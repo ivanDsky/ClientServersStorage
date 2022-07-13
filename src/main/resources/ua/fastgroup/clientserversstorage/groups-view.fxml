@@ -28,27 +28,27 @@
                   <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
                </VBox.margin>
             </Label>
-            <Button fx:id="addGroup" mnemonicParsing="false" text="Add group">
+            <Button fx:id="addGroup" mnemonicParsing="false" onAction="#onAdd" text="Add">
                <VBox.margin>
                   <Insets top="24.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="updateGroup" mnemonicParsing="false" text="Update group">
+            <Button fx:id="updateGroup" mnemonicParsing="false" onAction="#onUpdate" text="Update">
                <VBox.margin>
                   <Insets top="24.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="deleteGroup" mnemonicParsing="false" text="Delete group">
+            <Button fx:id="deleteGroup" mnemonicParsing="false" onAction="#onDelete" text="Delete group">
                <VBox.margin>
                   <Insets top="24.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="deleteAll" mnemonicParsing="false" text="Delete all">
+            <Button fx:id="deleteAll" mnemonicParsing="false" onAction="#onDeleteAll" text="Delete all">
                <VBox.margin>
                   <Insets top="24.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="getGroupPrice" mnemonicParsing="false" text="Get price of group">
+            <Button fx:id="getPriceGroup" mnemonicParsing="false" onAction="#onGetPrice" text="Get price of group">
                <VBox.margin>
                   <Insets top="24.0" />
                </VBox.margin>
