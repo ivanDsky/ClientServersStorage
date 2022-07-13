@@ -108,6 +108,28 @@ public class Repository {
         });
     }
 
+    public CompletableFuture<Result<Object>> increaseProduct(String productName, int amount) {
+        try {
+            return dataSourceProduct.increaseProduct(productName, amount).thenApply(response -> {
+                if (response.statusCode() == 200) return new Success(null);
+                else return new Error(response.body());
+            });
+        } catch (JsonProcessingException e) {
+            return CompletableFuture.completedFuture(new Error("Incorrect json"));
+        }
+    }
+
+    public CompletableFuture<Result<Object>> decreaseProduct(String productName, int amount) {
+        try {
+            return dataSourceProduct.decreaseProduct(productName, amount).thenApply(response -> {
+                if (response.statusCode() == 200) return new Success(null);
+                else return new Error(response.body());
+            });
+        } catch (JsonProcessingException e) {
+            return CompletableFuture.completedFuture(new Error("Incorrect json"));
+        }
+    }
+
     public CompletableFuture<Result<Object>> addGroup(Group group) {
         try {
             return dataSourceGroup.addGroup(group).thenApply(response -> {
